@@ -1,29 +1,58 @@
-var connection = require("../config/connection.js");
+// Here is the O.R.M. where you write functions that takes inputs and conditions
+// and turns them into database commands like SQL.
 
-// Object for all our SQL statement functions.
+var connection = require("./connection.js");
+
+function QuestionMarks(num) {
+  var arr = [];
+
+  for (var i = 0; i < num; i++) {
+    arr.push("?");
+  }
+
+  return arr.toString();
+}
+
+function devouredVal(YorN) {
+ 
+  var arr = [];
+
+  for (var didIEatIt in YorN) {
+    console.log('*****************')
+    console.log(didIEatIt)
+    console.log('***------------****')
+    console.log(YorN)
+    console.log('*****************')
+
+    var test = arr.push(didIEatIt + "=" + YorN[didIEatIt]);
+
+    console.log('-----------')
+    console.log(test)
+    console.log('-----------')
+  }
+
+  return arr.toString();
+}
+
 var orm = {
-
-  selectAll: function(tableInput, cb) {
-
+  all: function(tableInput, cb) {
     var queryString = "SELECT * FROM " + tableInput + ";";
-
     connection.query(queryString, function(err, result) {
       if (err) {
         throw err;
       }
       cb(result);
     });
-
   },
-  insertOne: function(table, cols, vals, cb) {
 
+  create: function(table, cols, vals, cb) {
     var queryString = "INSERT INTO " + table;
 
     queryString += " (";
     queryString += cols.toString();
     queryString += ") ";
     queryString += "VALUES (";
-    queryString += printQuestionMarks(vals.length);
+    queryString += QuestionMarks(vals.length);
     queryString += ") ";
 
     console.log(queryString);
@@ -32,16 +61,15 @@ var orm = {
       if (err) {
         throw err;
       }
-
       cb(result);
     });
   },
-  // An example of objColVals would be {name: panther, sleepy: true}
-  updateOne: function(table, objColVals, condition, cb) {
+
+  update: function(table, ColumnVals, condition, cb) {
     var queryString = "UPDATE " + table;
 
     queryString += " SET ";
-    queryString += objToSql(objColVals);
+    queryString += devouredVal(ColumnVals);
     queryString += " WHERE ";
     queryString += condition;
 
@@ -50,11 +78,9 @@ var orm = {
       if (err) {
         throw err;
       }
-
       cb(result);
     });
   }
 };
 
-// Export the orm object for the model (cat.js).
 module.exports = orm;

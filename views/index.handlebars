@@ -1,0 +1,98 @@
+
+
+<div class="container">
+	<div class="row  m-t-20 m-b-20" id="headline-sec">
+		<div class="col-md-12 text-center p-t-20" >
+			<img src="/burger.png" alt="burger" id="burger" />
+			<h1 class="title"> Have it your way! </h1>
+			<p>Enter the kind of burger you would like and we will make it for you!</p>
+		</div>
+		<div class="col-md-12 text-center">
+				<div class="row p-b-30">
+					<div class="col-md-3"></div>
+					<div class="col-md-6">
+						<form action="/burgers/create" method="POST">	
+							<div class="input-group">
+								<input type="text" class="form-control" name="burger_name" value="">
+								<span class="input-group-btn">
+									<button type="submit" class="btn btn-warning" id="text-enter-button">Let's Eat</button>
+								</span>
+							</div>
+						</form>
+					</div>
+					<div class="col-md-3"></div>
+				</div>
+			</div>
+	</div>
+		<div class="row">
+			
+				
+				{{#each burger_data}}
+					{{#unless this.devoured}}
+					
+						<div class="col-md-6">
+							<div class="row p-10">
+						
+								<div class="thumbnail p-t-20 p-b-20 text-left">
+									<div class="col-xs-9">
+										<div class="row">
+											<div class="col-md-3 col-sm-3 hidden-xs p-t-05">
+												<span class="circleNumber">{{this.id}}.</span>
+											</div>
+											<div class="col-md-9 col-sm-9">
+												<h3 class="makeBurger">
+													{{this.burger_name}}
+												</h3>
+											</div>
+										</div>
+
+
+									</div>
+									<div class="col-xs-3 text-center input-group p-t-05">
+										<form class="burger-form">
+											
+											<input type="hidden" class="burger_id" type="text" value={{this.id}}>
+											
+											<button type="submit" class="btn btn-success">Eat it!</button>
+											
+
+										</form>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					{{/unless}}
+				{{/each}}
+				
+			
+		</div>
+		<hr>
+		<div class="row p-10">
+	
+				{{#each burger_data}}
+					{{#if this.devoured}}
+				
+						<div class="col-md-2">
+
+							<div class="row p-10">
+								<p class="ate">
+									{{this.id}}. {{this.burger_name}}
+								</p>
+								
+							</div>
+						</div>
+					
+
+						
+					{{/if}}
+				{{/each}}
+			
+		</div>
+
+	
+</div>
+
+<div class="container">
+
+</div>
